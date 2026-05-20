@@ -1,0 +1,22 @@
+# Cấu hình Nixpacks giúp Railway hiểu rằng ứng dụng của bạn cần cả Node.js (để chạy bot)
+# và môi trường Python 3 cùng với pip (để chạy file xử lý pol.py gốc)
+
+[providers]
+# Kích hoạt cả hai môi trường song song
+node = {}
+python = {}
+
+[phases.setup]
+# Định nghĩa các gói cần cài đặt trên hệ thống ảo hóa Linux của Railway
+nixPkgs = ["nodejs", "python3", "python311Packages.pip"]
+
+[phases.install]
+# Lệnh cài đặt đồng thời các thư viện của Node.js và Python
+cmds = [
+  "npm ci",
+  "pip install -r requirements.txt"
+]
+
+[phases.start]
+# Lệnh khởi chạy chính của hệ thống Railway
+cmd = "node index.js"
